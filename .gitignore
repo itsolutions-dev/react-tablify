@@ -1,0 +1,8 @@
+/node_modules
+/=
+/build
+/npm_modules/*/node_modules
+/npm_modules/*/=
+/npm_modules/*/lib
+/npm_modules/*/build
+/.vscode

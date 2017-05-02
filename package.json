@@ -1,0 +1,103 @@
+{
+  "name": "react-tablify",
+  "version": "0.0.1",
+  "description": "A simple, lightweight and highly extensible datagrid for React",
+  "main": "lib/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rimraf lib dist es .nyc_output",
+    "test": "cross-env BABEL_ENV=commonjs nyc --require babel-register --require ./test/setup.js mocha --recursive",
+    "test:watch": "npm test -- --watch",
+    "test:cov": "nyc report --reporter=text-lcov | coveralls",
+    "check:src": "npm run lint && npm run test",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/react-tablify.js",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/react-tablify.min.js",
+    "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
+    "prepublish": "npm run clean && npm run check:src && npm run build && check-es3-syntax lib/ dist/ --kill",
+    "flow": "flow check",
+    "lint": "eslint src test build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsolutions-dev/react-tablify.git"
+  },
+  "keywords": [
+    "react",
+    "table",
+    "tablify",
+    "datatable"
+  ],
+  "authors": [
+    "Matteo Basso (https://github.com/mbasso)",
+    "Adriano Buscema (https://github.com/adribusc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itsolutions-dev/react-tablify/issues"
+  },
+  "homepage": "https://github.com/itsolutions-dev/react-tablify",
+  "devDependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.24.1",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "7.0.0",
+    "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-plugin-transform-es3-member-expression-literals": "6.22.0",
+    "babel-plugin-transform-es3-property-literals": "6.22.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-flow": "6.23.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-0": "6.24.1",
+    "babel-register": "6.24.1",
+    "check-es3-syntax-cli": "0.2.0",
+    "compression-webpack-plugin": "0.4.0",
+    "coveralls": "2.13.1",
+    "cross-env": "4.0.0",
+    "eslint": "3.19.0",
+    "eslint-config-airbnb": "14.1.0",
+    "eslint-config-prettier": "1.7.0",
+    "eslint-plugin-flowtype": "2.32.1",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.10.3",
+    "expect": "1.20.2",
+    "flow-bin": "0.45.0",
+    "istanbul": "0.4.5",
+    "jsdom": "10.1.0",
+    "mocha": "3.3.0",
+    "nyc": "10.3.0",
+    "prettier": "1.2.2",
+    "prettier-eslint": "6.1.2",
+    "react": "15.5.4",
+    "react-addons-perf": "15.4.2",
+    "react-dom": "15.5.4",
+    "react-test-renderer": "15.5.4",
+    "rimraf": "2.6.1",
+    "webpack": "2.4.1"
+  },
+  "peerDependencies": {
+    "react": "^15.5.4"
+  },
+  "npmName": "react-tablify",
+  "npmFileMap": [
+    {
+      "basePath": "/dist/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ],
+  "browserify": {
+    "transform": [
+      "loose-envify"
+    ]
+  }
+}
