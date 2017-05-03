@@ -1,5 +1,9 @@
-// @flow
-
-import React from 'react';
-
-export default (props: any) => <div>{props.name}</div>;
+export Table from './Table/Table';
+export TableRow from './Table/TableRow';
+export TableHeader from './Header/TableHeader';
+export TableHeaderColumn from './Header/TableHeaderColumn';
+export TableBody from './Body/TableBody';
+export TableBodyColumn from './Body/TableBodyColumn';
+export TableFooter from './Footer/TableFooter';
+export TableFooterColumn from './Footer/TableFooterColumn';
+export Column from './columns/Column';
