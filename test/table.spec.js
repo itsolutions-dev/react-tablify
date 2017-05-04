@@ -1,6 +1,5 @@
 import React from 'react';
 import { expectComponentToMatch } from './utils';
-import ReactTestRenderer from 'react-test-renderer';
 import {
   Table,
   TableRow,
