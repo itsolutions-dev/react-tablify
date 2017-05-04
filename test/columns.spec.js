@@ -35,10 +35,7 @@ describe('columns', () => {
     });
 
     it('should get array field', () => {
-      expectComponentToMatch(
-        <Column field={0} data={[1, 2, 3]} />,
-        <td>1</td>,
-      );
+      expectComponentToMatch(<Column field={0} data={[1, 2, 3]} />, <td>1</td>);
     });
 
     it('should get object field', () => {

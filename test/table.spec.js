@@ -1,5 +1,6 @@
 import React from 'react';
 import { expectComponentToMatch } from './utils';
+import ReactTestRenderer from 'react-test-renderer';
 import {
   Table,
   TableRow,
@@ -12,19 +13,21 @@ import {
 } from '../src/';
 
 describe('table', () => {
+  const dataset = [{ foo: 'foo0', bar: 'bar0' }, { foo: 'foo1', bar: 'bar1' }];
+
   it('should pass props', () => {
     expectComponentToMatch(
-      <Table data={{}} name="foo" />,
+      <Table dataset={[]} name="foo" />,
       <table name="foo" />,
     );
     expectComponentToMatch(
-      <Table data={{}} name="foo">
+      <Table dataset={[]} name="foo">
         <div key="1" foo="bar">bar</div>
         <div key="2" foo="foo">bar</div>
       </Table>,
       <table name="foo">
-        <div data={{}} key="1" name="foo" foo="bar">bar</div>
-        <div data={{}} key="2" name="foo" foo="foo">bar</div>
+        <div dataset={[]} key="1" name="foo" foo="bar">bar</div>
+        <div dataset={[]} key="2" name="foo" foo="foo">bar</div>
       </table>,
     );
   });
@@ -116,12 +119,7 @@ describe('table', () => {
         </TableBody>
       </Table>,
       <table name="foo">
-        <tbody>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tbody>
+        <tbody />
       </table>,
     );
   });
@@ -133,12 +131,7 @@ describe('table', () => {
         <TableBodyColumn key="bar" className="bar">bar</TableBodyColumn>
       </Table>,
       <table name="foo">
-        <tbody>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tbody>
+        <tbody />
       </table>,
     );
   });
@@ -172,12 +165,7 @@ describe('table', () => {
             <th className="bar">bar</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tbody>
+        <tbody />
         <tfoot>
           <tr>
             <td className="foo">foo</td>
@@ -217,18 +205,57 @@ describe('table', () => {
             <th className="bar">bar</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tbody>
+        <tbody />
         <tfoot>
           <tr>
             <td className="foo">foo</td>
             <td className="bar">bar</td>
           </tr>
         </tfoot>
+      </table>,
+    );
+  });
+
+  it('should provide data', () => {
+    expectComponentToMatch(
+      <Table dataset={dataset}>
+        <TableBodyColumn key="foo" className="foo" field="foo" />
+        <TableBodyColumn key="bar" className="bar" field="bar" />
+      </Table>,
+      <table>
+        <tbody>
+          <tr>
+            <td className="foo">foo0</td>
+            <td className="bar">bar0</td>
+          </tr>
+          <tr>
+            <td className="foo">foo1</td>
+            <td className="bar">bar1</td>
+          </tr>
+        </tbody>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table dataset={dataset}>
+        <TableBody>
+          <TableRow>
+            <TableBodyColumn key="foo" className="foo" field="foo" />
+            <TableBodyColumn key="bar" className="bar" field="bar" />
+          </TableRow>
+        </TableBody>
+      </Table>,
+      <table>
+        <tbody>
+          <tr>
+            <td className="foo">foo0</td>
+            <td className="bar">bar0</td>
+          </tr>
+          <tr>
+            <td className="foo">foo1</td>
+            <td className="bar">bar1</td>
+          </tr>
+        </tbody>
       </table>,
     );
   });

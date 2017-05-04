@@ -4,7 +4,7 @@ import React from 'react';
 
 type ComponentOrProps = { component: any, others: any };
 
-export const toArray = (array) => {
+export const toArray = (array: any) => {
   let result = [];
   const isArray = Array.isArray(array);
   if (isArray) {
@@ -18,7 +18,7 @@ export const toArray = (array) => {
 export const cloneWithProps = (element: Object, props: Object, key: any) => {
   const newProps = Object.assign({}, props, element.props);
   if (newProps.key === undefined) newProps.key = key;
-  return React.cloneElement(element, newProps);
+  return <element.type {...newProps} />;
 };
 
 let Row;

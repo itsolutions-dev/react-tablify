@@ -10,12 +10,22 @@ import TableFooterColumn from '../Footer/TableFooterColumn';
 import { toArray, wrapColumns, cloneWithProps } from '../utils';
 
 type TableProps = {
-  data: Array<Object>,
+  dataset: Array<any>,
   children: any
 };
 
 const getChildrenArray = (props: TableProps) => {
-  const { children, ...others } = props;
+  const { dataset, children, ...others } = props;
+  let childrenArray = [];
+  if (children && Array.isArray(children)) {
+    childrenArray = children;
+  } else if (
+    children !== null &&
+    children !== undefined &&
+    children !== false
+  ) {
+    childrenArray = [children];
+  }
   let result = [];
   const accumulator = {
     header: [],
@@ -23,7 +33,7 @@ const getChildrenArray = (props: TableProps) => {
     footer: [],
     raws: [],
   };
-  children.forEach((child, index) => {
+  childrenArray.forEach((child, index) => {
     if (child && child.type) {
       switch (child.type) {
         case TableHeaderColumn:
@@ -41,7 +51,9 @@ const getChildrenArray = (props: TableProps) => {
           result.push(child);
           break;
         default:
-          accumulator.raws.push(cloneWithProps(child, { ...others }, index));
+          accumulator.raws.push(
+            cloneWithProps(child, { dataset, ...others }, index),
+          );
           break;
       }
     }
@@ -55,42 +67,63 @@ const getChildrenArray = (props: TableProps) => {
   if (accumulator.footer.length !== 0) {
     result.push(wrapColumns(accumulator.footer, TableFooter, 'footer'));
   }
-  result = result.map(container =>
-    React.cloneElement(
-      container,
-      {},
-      (toArray(container.props.children) || [])
-        .map((row, rowIndex) =>
-          React.cloneElement(
-            row,
-            {},
-            (toArray(row.props.children) || [])
-              .map((column, columnIndex) =>
-                cloneWithProps(
-                  column,
-                  { ...others },
-                  `${rowIndex}${columnIndex}`,
-                ),
-              ),
+  result = result.map((container) => {
+    let newContainer;
+    if (container.type === TableBody) {
+      const containerChildren = toArray(container.props.children);
+      newContainer = React.cloneElement(
+        container,
+        {},
+        // eslint-disable-next-line
+        [].concat.apply(
+          [],
+          dataset.map((data, dataIndex) =>
+            containerChildren.map((row, rowIndex) => (
+              <row.type {...row.props}>
+                {toArray(row.props.children).map((column, columnIndex) =>
+                  cloneWithProps(
+                    column,
+                    { ...others, data, dataIndex },
+                    `${rowIndex}${columnIndex}`,
+                  ),
+                )}
+              </row.type>
+            )),
           ),
         ),
-    ),
-  );
+      );
+    } else {
+      newContainer = React.cloneElement(
+        container,
+        {},
+        toArray(container.props.children).map((row, rowIndex) => (
+          <row.type {...row.props}>
+            {toArray(row.props.children).map((column, columnIndex) =>
+              cloneWithProps(column, { ...others }, `${rowIndex}${columnIndex}`),
+            )}
+          </row.type>
+        )),
+      );
+    }
+    return newContainer;
+  });
   result = [...result, ...accumulator.raws];
   return result;
 };
 
-const Table = (props: TableProps) => {
-  const { data, children, ...others } = props;
-  let newChildren = children;
-  if (children && Array.isArray(children)) {
-    newChildren = getChildrenArray(props);
-  }
-  return (
-    <table {...others}>
-      {newChildren}
-    </table>
-  );
-};
+export default class Table extends React.Component {
+  static defaultProps = {
+    dataset: [],
+  };
 
-export default Table;
+  props: TableProps;
+
+  render() {
+    const { dataset, children, ...others } = this.props;
+    return (
+      <table {...others}>
+        {getChildrenArray(this.props)}
+      </table>
+    );
+  }
+}
