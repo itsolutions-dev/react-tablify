@@ -25,9 +25,9 @@ describe('table body', () => {
     });
 
     it('should render the given component', () => {
-      const customBody = ({ name }: { name: string }) => <div>{name}</div>;
+      const customCell = ({ name }: { name: string }) => <div>{name}</div>;
       expectComponentToMatch(
-        <TableBodyColumn cell={customBody} name="foo" />,
+        <TableBodyColumn cellComponent={customCell} name="foo" />,
         <div>foo</div>,
       );
     });

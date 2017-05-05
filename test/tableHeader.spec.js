@@ -30,7 +30,7 @@ describe('table header', () => {
     it('should render the given component', () => {
       const customHeader = ({ name }: { name: string }) => <div>{name}</div>;
       expectComponentToMatch(
-        <TableHeaderColumn cell={customHeader} name="foo" />,
+        <TableHeaderColumn cellComponent={customHeader} name="foo" />,
         <div>foo</div>,
       );
     });

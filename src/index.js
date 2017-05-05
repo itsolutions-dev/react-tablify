@@ -6,5 +6,5 @@ export TableBody from './Body/TableBody';
 export TableBodyColumn from './Body/TableBodyColumn';
 export TableFooter from './Footer/TableFooter';
 export TableFooterColumn from './Footer/TableFooterColumn';
-export Column from './columns/Column';
-export LookupColumn from './columns/LookupColumn';
+export Cell from './cells/Cell';
+export LookupCell from './cells/LookupCell';

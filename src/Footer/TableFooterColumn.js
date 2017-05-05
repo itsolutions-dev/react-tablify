@@ -1,8 +1,8 @@
 // @flow
 
-import Column from '../columns/Column';
+import Column from '../cells/Cell';
 import { componentOr } from '../utils';
 
-const TableFooterColumn = componentOr('cell')(Column);
+const TableFooterColumn = componentOr('cellComponent')(Column);
 
 export default TableFooterColumn;

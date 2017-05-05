@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-export default class Column extends React.Component {
+export default class Cell extends React.Component {
   static defaultProps = {
-    cell: 'td',
+    cellComponent: 'td',
   };
 
   props: {
-    cell: string | Function,
+    cellComponent: string | Function,
     data: any,
     field: number | string,
     onCreate: any => any,
@@ -16,7 +16,14 @@ export default class Column extends React.Component {
   };
 
   render() {
-    const { cell, data, field, onCreate, children, ...others } = this.props;
+    const {
+      cellComponent,
+      data,
+      field,
+      onCreate,
+      children,
+      ...others
+    } = this.props;
     let newData = data;
     if (typeof field === 'string') {
       field.split('.').forEach((x: string) => {
@@ -26,7 +33,7 @@ export default class Column extends React.Component {
       newData = data[field];
     }
     if (onCreate) newData = onCreate(newData);
-    const Component = cell;
+    const Component = cellComponent;
     return (
       <Component {...others}>
         {newData}

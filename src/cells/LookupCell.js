@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react';
-import Column from './Column';
+import Cell from './Cell';
 
-export default class LookupColumn extends React.Component {
+export default class LookupCell extends React.Component {
   static defaultProps = {
     dataSource: [],
   };
@@ -26,7 +26,7 @@ export default class LookupColumn extends React.Component {
       ...others
     } = this.props;
     return (
-      <Column
+      <Cell
         onCreate={(data) => {
           let value = notFoundText;
           const result =

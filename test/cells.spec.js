@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { expectComponentToMatch } from './utils';
-import { Column, LookupColumn } from '../src/';
+import { Cell, LookupCell } from '../src/';
 
-describe('columns', () => {
+describe('cells', () => {
   const orders = [
     { id: 1, customerCode: 1 },
     { id: 2, customerCode: 3 },
@@ -17,21 +17,21 @@ describe('columns', () => {
     { code: 3, description: 'foo3' },
   ];
 
-  describe('Column', () => {
+  describe('Cell', () => {
     it('should pass props', () => {
-      expectComponentToMatch(<Column name="foo" />, <td name="foo" />);
+      expectComponentToMatch(<Cell name="foo" />, <td name="foo" />);
     });
 
     it('should render a custom component', () => {
       expectComponentToMatch(
-        <Column cell="th" name="foo" />,
+        <Cell cellComponent="th" name="foo" />,
         <th name="foo" />,
       );
     });
 
     it('should render data and children', () => {
       expectComponentToMatch(
-        <Column data="foo">bar</Column>,
+        <Cell data="foo">bar</Cell>,
         <td>
           {'foo'}
           {'bar'}
@@ -41,34 +41,34 @@ describe('columns', () => {
 
     it('should modify data in onCreate', () => {
       expectComponentToMatch(
-        <Column onCreate={x => x.toUpperCase()} data="foo" />,
+        <Cell onCreate={x => x.toUpperCase()} data="foo" />,
         <td>FOO</td>,
       );
     });
 
     it('should get array field', () => {
-      expectComponentToMatch(<Column field={0} data={[1, 2, 3]} />, <td>1</td>);
+      expectComponentToMatch(<Cell field={0} data={[1, 2, 3]} />, <td>1</td>);
     });
 
     it('should get object field', () => {
       expectComponentToMatch(
-        <Column field="foo" data={{ foo: 'bar' }} />,
+        <Cell field="foo" data={{ foo: 'bar' }} />,
         <td>bar</td>,
       );
     });
 
     it('should get nested field in object', () => {
       expectComponentToMatch(
-        <Column field="foo.bar" data={{ foo: { bar: 'foo' } }} />,
+        <Cell field="foo.bar" data={{ foo: { bar: 'foo' } }} />,
         <td>foo</td>,
       );
     });
   });
 
-  describe('LookupColumn', () => {
+  describe('LookupCell', () => {
     it('should show the display field', () => {
       expectComponentToMatch(
-        <LookupColumn
+        <LookupCell
           data={orders[0]}
           field="customerCode"
           displayField="description"
@@ -81,7 +81,7 @@ describe('columns', () => {
 
     it('should handle onCreate', () => {
       expectComponentToMatch(
-        <LookupColumn
+        <LookupCell
           data={orders[0]}
           field="customerCode"
           displayField="description"
@@ -95,7 +95,7 @@ describe('columns', () => {
 
     it('should handle null dataSource', () => {
       expectComponentToMatch(
-        <LookupColumn
+        <LookupCell
           data={orders[0]}
           field="customerCode"
           displayField="description"
@@ -109,7 +109,7 @@ describe('columns', () => {
 
     it('should handle empty dataSource', () => {
       expectComponentToMatch(
-        <LookupColumn
+        <LookupCell
           data={orders[0]}
           field="customerCode"
           displayField="description"
