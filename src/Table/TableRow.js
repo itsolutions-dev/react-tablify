@@ -2,7 +2,7 @@
 
 import { componentOr, setRowComponent } from '../utils';
 
-const TableRow = componentOr('tr');
+const TableRow = componentOr()('tr');
 
 setRowComponent(TableRow);
 

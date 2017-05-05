@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _utils = require('../utils');
 
-var TableRow = (0, _utils.componentOr)('tr');
+var TableFooter = (0, _utils.componentOr)('tfoot');
 
-(0, _utils.setRowComponent)(TableRow);
-
-exports['default'] = TableRow;
+exports['default'] = TableFooter;

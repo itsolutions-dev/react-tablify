@@ -26,12 +26,11 @@ export const setRowComponent = (Component: string | Function) => {
   Row = Component;
 };
 
-export const componentOr = (fallback: string | Function) => ({
-  component,
-  ...others
-}: ComponentOrProps) => {
-  const Component = component || fallback;
-  return <Component {...others} />;
+export const componentOr = (prop: string = 'component') => (
+  fallback: string | Function,
+) => (props: ComponentOrProps) => {
+  const Component = props[prop] || fallback;
+  return <Component {...props} />;
 };
 
 export const wrapColumns = (

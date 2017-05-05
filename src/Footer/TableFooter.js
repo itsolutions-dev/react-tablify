@@ -2,6 +2,6 @@
 
 import { componentOr } from '../utils';
 
-const TableFooter = componentOr('tfoot');
+const TableFooter = componentOr()('tfoot');
 
 export default TableFooter;

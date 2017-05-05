@@ -12,7 +12,7 @@ describe('columns', () => {
 
     it('should render a custom component', () => {
       expectComponentToMatch(
-        <Column component="th" name="foo" />,
+        <Column cell="th" name="foo" />,
         <th name="foo" />,
       );
     });

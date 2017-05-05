@@ -30,7 +30,7 @@ describe('table footer', () => {
     it('should render the given component', () => {
       const customFooter = ({ name }: { name: string }) => <div>{name}</div>;
       expectComponentToMatch(
-        <TableFooterColumn component={customFooter} name="foo" />,
+        <TableFooterColumn cell={customFooter} name="foo" />,
         <div>foo</div>,
       );
     });
