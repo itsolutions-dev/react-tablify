@@ -7,7 +7,7 @@ import TableBody from '../Body/TableBody';
 import TableBodyColumn from '../Body/TableBodyColumn';
 import TableFooter from '../Footer/TableFooter';
 import TableFooterColumn from '../Footer/TableFooterColumn';
-import { toArray, wrapColumns, cloneWithProps } from '../utils';
+import { toArray, flatten, wrapColumns, cloneWithProps } from '../utils';
 
 type TableProps = {
   dataset: Array<any>,
@@ -69,26 +69,34 @@ const getChildrenArray = (props: TableProps) => {
   }
   result = result.map((container) => {
     let newContainer;
+    const containerChildren = toArray(
+      (container.props && container.props.children) || [],
+      true,
+    );
     if (container.type === TableBody) {
-      const containerChildren = toArray(container.props.children);
       newContainer = React.cloneElement(
         container,
         {},
         // eslint-disable-next-line
-        [].concat.apply(
-          [],
+        flatten(
           dataset.map((data, dataIndex) =>
-            containerChildren.map((row, rowIndex) => (
-              <row.type {...row.props}>
-                {toArray(row.props.children).map((column, columnIndex) =>
-                  cloneWithProps(
-                    column,
-                    { ...others, data, dataIndex },
-                    `${rowIndex}${columnIndex}`,
-                  ),
-                )}
-              </row.type>
-            )),
+            containerChildren.map(
+              (row, rowIndex) =>
+                row &&
+                row.type &&
+                <row.type {...row.props}>
+                  {toArray(
+                    (row.props && row.props.children) || [],
+                    true,
+                  ).map((column, columnIndex) =>
+                    cloneWithProps(
+                      column,
+                      { ...others, data, dataIndex },
+                      `${rowIndex}${columnIndex}`,
+                    ),
+                  )}
+                </row.type>,
+            ),
           ),
         ),
       );
@@ -96,13 +104,23 @@ const getChildrenArray = (props: TableProps) => {
       newContainer = React.cloneElement(
         container,
         {},
-        toArray(container.props.children).map((row, rowIndex) => (
-          <row.type {...row.props}>
-            {toArray(row.props.children).map((column, columnIndex) =>
-              cloneWithProps(column, { ...others }, `${rowIndex}${columnIndex}`),
-            )}
-          </row.type>
-        )),
+        containerChildren.map(
+          (row, rowIndex) =>
+            row &&
+            row.type &&
+            <row.type {...row.props}>
+              {toArray(
+                (row.props && row.props.children) || [],
+                true,
+              ).map((column, columnIndex) =>
+                cloneWithProps(
+                  column,
+                  { ...others },
+                  `${rowIndex}${columnIndex}`,
+                ),
+              )}
+            </row.type>,
+        ),
       );
     }
     return newContainer;

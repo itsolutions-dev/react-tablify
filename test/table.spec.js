@@ -258,4 +258,105 @@ describe('table', () => {
       </table>,
     );
   });
+
+  it('should handle nested children', () => {
+    expectComponentToMatch(
+      <Table name="foo">
+        <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+        [
+        <TableHeaderColumn key="lorem" className="lorem">
+          lorem
+        </TableHeaderColumn>
+        ,
+        <TableHeaderColumn key="ipsum" className="ipsum">
+          ipsum
+        </TableHeaderColumn>
+        ,
+        ]
+        <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
+      </Table>,
+      <table name="foo">
+        <thead>
+          <tr>
+            <th className="foo">foo</th>
+            <th className="lorem">lorem</th>
+            <th className="ipsum">ipsum</th>
+            <th className="bar">bar</th>
+          </tr>
+        </thead>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table name="foo">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+          </TableRow>
+          [
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+          </TableRow>,
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+          </TableRow>,
+          ]
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+      </Table>,
+      <table name="foo">
+        <thead>
+          <tr>
+            <th className="foo">foo</th>
+          </tr>
+          <tr>
+            <th className="foo">foo</th>
+          </tr>
+          <tr>
+            <th className="foo">foo</th>
+          </tr>
+          <tr>
+            <th className="foo">foo</th>
+          </tr>
+        </thead>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table name="foo">
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        [
+        <TableBody>
+          <TableRow>
+            <TableBodyColumn key="foo" className="foo">foo</TableBodyColumn>
+          </TableRow>
+        </TableBody>,
+        <TableFooter>
+          <TableRow>
+            <TableFooterColumn key="foo" className="foo">foo</TableFooterColumn>
+          </TableRow>
+        </TableFooter>,
+        ]
+      </Table>,
+      <table name="foo">
+        <thead>
+          <tr>
+            <th className="foo">foo</th>
+          </tr>
+        </thead>
+        <tbody />
+        <tfoot>
+          <tr>
+            <td className="foo">foo</td>
+          </tr>
+        </tfoot>
+      </table>,
+    );
+  });
 });
