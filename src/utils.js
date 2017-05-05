@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-type ComponentOrProps = { component: any, others: any };
-
 export const toArray = (array: any) => {
   let result = [];
   const isArray = Array.isArray(array);
@@ -28,7 +26,7 @@ export const setRowComponent = (Component: string | Function) => {
 
 export const componentOr = (prop: string = 'component') => (
   fallback: string | Function,
-) => (props: ComponentOrProps) => {
+) => (props: Object) => {
   const Component = props[prop] || fallback;
   return <Component {...props} />;
 };
