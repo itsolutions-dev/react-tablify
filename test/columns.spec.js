@@ -2,9 +2,21 @@
 
 import React from 'react';
 import { expectComponentToMatch } from './utils';
-import { Column } from '../src/';
+import { Column, LookupColumn } from '../src/';
 
 describe('columns', () => {
+  const orders = [
+    { id: 1, customerCode: 1 },
+    { id: 2, customerCode: 3 },
+    { id: 3, customerCode: 2 },
+  ];
+
+  const customers = [
+    { code: 1, description: 'foo1' },
+    { code: 2, description: 'foo2' },
+    { code: 3, description: 'foo3' },
+  ];
+
   describe('Column', () => {
     it('should pass props', () => {
       expectComponentToMatch(<Column name="foo" />, <td name="foo" />);
@@ -49,6 +61,35 @@ describe('columns', () => {
       expectComponentToMatch(
         <Column field="foo.bar" data={{ foo: { bar: 'foo' } }} />,
         <td>foo</td>,
+      );
+    });
+  });
+
+  describe('LookupColumn', () => {
+    it('should show the display field', () => {
+      expectComponentToMatch(
+        <LookupColumn
+          data={orders[0]}
+          field="customerCode"
+          displayField="description"
+          valueField="code"
+          dataSource={customers}
+        />,
+        <td>foo1</td>,
+      );
+    });
+
+    it('should handle onCreate', () => {
+      expectComponentToMatch(
+        <LookupColumn
+          data={orders[0]}
+          field="customerCode"
+          displayField="description"
+          valueField="code"
+          dataSource={customers}
+          onCreate={description => description.toUpperCase()}
+        />,
+        <td>FOO1</td>,
       );
     });
   });

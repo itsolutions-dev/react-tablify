@@ -7,3 +7,4 @@ export TableBodyColumn from './Body/TableBodyColumn';
 export TableFooter from './Footer/TableFooter';
 export TableFooterColumn from './Footer/TableFooterColumn';
 export Column from './columns/Column';
+export LookupColumn from './columns/LookupColumn';
