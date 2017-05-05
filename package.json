@@ -1,6 +1,6 @@
 {
   "name": "react-tablify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple, lightweight and highly extensible datagrid for React",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -27,7 +27,8 @@
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
   "pre-commit": [
-    "check:src"
+    "check:src",
+    "build"
   ],
   "repository": {
     "type": "git",
