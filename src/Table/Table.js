@@ -10,6 +10,7 @@ import TableFooterColumn from '../Footer/TableFooterColumn';
 import { toArray, flatten, wrapColumns, cloneWithProps } from '../utils';
 
 type TableProps = {
+  component: string | Function,
   dataset: Array<any>,
   children: any
 };
@@ -131,17 +132,19 @@ const getChildrenArray = (props: TableProps) => {
 
 export default class Table extends React.Component {
   static defaultProps = {
+    component: 'table',
     dataset: [],
   };
 
   props: TableProps;
 
   render() {
-    const { dataset, children, ...others } = this.props;
+    const { component, dataset, children, ...others } = this.props;
+    const Component = component;
     return (
-      <table {...others}>
+      <Component {...others}>
         {getChildrenArray(this.props)}
-      </table>
+      </Component>
     );
   }
 }

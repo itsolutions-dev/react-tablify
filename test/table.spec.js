@@ -31,6 +31,13 @@ describe('table', () => {
     );
   });
 
+  it('should render the given component', () => {
+    expectComponentToMatch(
+      <Table component="div" />,
+      <div />,
+    );
+  });
+
   it('should have an header', () => {
     expectComponentToMatch(
       <Table name="foo">
