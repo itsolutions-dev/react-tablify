@@ -1,6 +1,9 @@
+/* eslint-disable */
+
 var webpack = require("webpack");
 var resolve = require("path").resolve;
 var CompressionPlugin = require("compression-webpack-plugin");
+// var PrepackWebpackPlugin = require("prepack-webpack-plugin").default;
 
 module.exports = env => {
   env = env || {};
@@ -10,7 +13,7 @@ module.exports = env => {
   return {
     entry: "./index.js",
     output: {
-      library: "asmDom",
+      library: "ReactTablify",
       libraryTarget: "umd"
     },
     context: resolve(__dirname, "src"),
@@ -44,6 +47,7 @@ module.exports = env => {
           ifProd("production") || "development"
         )
       }),
+      // new PrepackWebpackPlugin({}),
       ifProd(
         new webpack.optimize.UglifyJsPlugin({
           compress: {
