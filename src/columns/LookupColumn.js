@@ -5,8 +5,7 @@ import Column from './Column';
 
 export default class LookupColumn extends React.Component {
   static defaultProps = {
-    notFoundText: '',
-    onCreate: {},
+    dataSource: [],
   };
 
   props: {
@@ -29,9 +28,10 @@ export default class LookupColumn extends React.Component {
     return (
       <Column
         onCreate={(data) => {
-          let value = notFoundText || '';
-          const result = dataSource.filter(x => x[valueField] === data);
-          if (result.length > 0) {
+          let value = notFoundText;
+          const result =
+            dataSource && dataSource.filter(x => x[valueField] === data);
+          if (result && result.length > 0) {
             value = result[0][displayField];
           }
           if (onCreate && typeof onCreate === 'function') {

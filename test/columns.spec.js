@@ -92,5 +92,33 @@ describe('columns', () => {
         <td>FOO1</td>,
       );
     });
+
+    it('should handle null dataSource', () => {
+      expectComponentToMatch(
+        <LookupColumn
+          data={orders[0]}
+          field="customerCode"
+          displayField="description"
+          valueField="code"
+          dataSource={null}
+          onCreate={description => description && description.toUpperCase()}
+        />,
+        <td />,
+      );
+    });
+
+    it('should handle empty dataSource', () => {
+      expectComponentToMatch(
+        <LookupColumn
+          data={orders[0]}
+          field="customerCode"
+          displayField="description"
+          valueField="code"
+          dataSource={[]}
+          onCreate={description => description && description.toUpperCase()}
+        />,
+        <td />,
+      );
+    });
   });
 });
