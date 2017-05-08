@@ -25,10 +25,6 @@ module.exports = env => {
           test: /\.js$/,
           loaders: ["babel-loader"],
           exclude: [/node_modules/]
-        },
-        {
-          test: /\.wasm$/,
-          loaders: ["arraybuffer-loader"]
         }
       ]
     },
