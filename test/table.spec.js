@@ -15,16 +15,19 @@ describe('table', () => {
   const dataset = [{ foo: 'foo0', bar: 'bar0' }, { foo: 'foo1', bar: 'bar1' }];
 
   it('should pass props', () => {
+    const style = {
+      margin: 0,
+    };
     expectComponentToMatch(
       <Table dataset={[]} name="foo" />,
       <table name="foo" />,
     );
     expectComponentToMatch(
-      <Table dataset={[]} name="foo">
+      <Table dataset={[]} name="foo" className="foo" style={style}>
         <div key="1" foo="bar">bar</div>
         <div key="2" foo="foo">bar</div>
       </Table>,
-      <table name="foo">
+      <table name="foo" className="foo" style={style}>
         <div dataset={[]} key="1" name="foo" foo="bar">bar</div>
         <div dataset={[]} key="2" name="foo" foo="foo">bar</div>
       </table>,

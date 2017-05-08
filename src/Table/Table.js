@@ -12,11 +12,13 @@ import { toArray, flatten, wrapColumns, cloneWithProps } from '../utils';
 type TableProps = {
   component: string | Function,
   dataset: Array<any>,
-  children: any
+  className: string,
+  style: Object,
+  children: any,
 };
 
 const getChildrenArray = (props: TableProps) => {
-  const { dataset, children, ...others } = props;
+  const { dataset, children, className, style, ...others } = props;
   let childrenArray = [];
   if (children && Array.isArray(children)) {
     childrenArray = children;
