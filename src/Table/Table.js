@@ -11,14 +11,15 @@ import { toArray, flatten, wrapColumns, cloneWithProps } from '../utils';
 
 type TableProps = {
   component: string | Function,
+  caption: Function,
   dataset: Array<any>,
   className: string,
   style: Object,
-  children: any,
+  children: any
 };
 
 const getChildrenArray = (props: TableProps) => {
-  const { dataset, children, className, style, ...others } = props;
+  const { dataset, component, caption, children, className, style, ...others } = props;
   let childrenArray = [];
   if (children && Array.isArray(children)) {
     childrenArray = children;
@@ -141,10 +142,11 @@ export default class Table extends React.Component {
   props: TableProps;
 
   render() {
-    const { component, dataset, children, ...others } = this.props;
+    const { component, caption, dataset, children, ...others } = this.props;
     const Component = component;
     return (
       <Component {...others}>
+        {caption}
         {getChildrenArray(this.props)}
       </Component>
     );

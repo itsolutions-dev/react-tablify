@@ -41,6 +41,28 @@ describe('table', () => {
     );
   });
 
+  it('should render a caption', () => {
+    expectComponentToMatch(
+      <Table caption={<caption>This is a caption</caption>}>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
+            <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+      </Table>,
+      <table>
+        <caption>This is a caption</caption>
+        <thead>
+          <tr>
+            <th className="foo">foo</th>
+            <th className="bar">bar</th>
+          </tr>
+        </thead>
+      </table>,
+    );
+  });
+
   it('should have an header', () => {
     expectComponentToMatch(
       <Table name="foo">
