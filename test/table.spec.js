@@ -1,55 +1,24 @@
 import React from 'react';
 import { expectComponentToMatch } from './utils';
-import {
-  Table,
-  TableRow,
-  TableHeader,
-  TableHeaderColumn,
-  TableBody,
-  TableBodyColumn,
-  TableFooter,
-  TableFooterColumn,
-} from '../src/';
+import { Table } from '../src/';
 
 describe('table', () => {
   const dataset = [{ foo: 'foo0', bar: 'bar0' }, { foo: 'foo1', bar: 'bar1' }];
 
-  it('should pass props', () => {
-    const style = {
-      margin: 0,
-    };
-    expectComponentToMatch(
-      <Table dataset={[]} name="foo" />,
-      <table name="foo" />,
-    );
-    expectComponentToMatch(
-      <Table dataset={[]} name="foo" className="foo" style={style}>
-        <div key="1" foo="bar">bar</div>
-        <div key="2" foo="foo">bar</div>
-      </Table>,
-      <table name="foo" className="foo" style={style}>
-        <div dataset={[]} key="1" name="foo" foo="bar">bar</div>
-        <div dataset={[]} key="2" name="foo" foo="foo">bar</div>
-      </table>,
-    );
-  });
-
   it('should render the given component', () => {
-    expectComponentToMatch(
-      <Table component="div" />,
-      <div />,
-    );
+    expectComponentToMatch(<Table component="div" />, <div />);
   });
 
-  it('should render a caption', () => {
+  it('should render unknown components', () => {
     expectComponentToMatch(
-      <Table caption={<caption>This is a caption</caption>}>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-            <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
+      <Table>
+        <caption>This is a caption</caption>
+        <thead>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+            <th key="bar" className="bar">bar</th>
+          </tr>
+        </thead>
       </Table>,
       <table>
         <caption>This is a caption</caption>
@@ -63,186 +32,23 @@ describe('table', () => {
     );
   });
 
-  it('should have an header', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-            <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-      </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
-            <th className="bar">bar</th>
-          </tr>
-        </thead>
-      </table>,
-    );
-  });
-
-  it('should inject an header', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-        <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
-      </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
-            <th className="bar">bar</th>
-          </tr>
-        </thead>
-      </table>,
-    );
-  });
-
-  it('should have a footer', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableFooter>
-          <TableRow>
-            <TableFooterColumn className="foo">foo</TableFooterColumn>
-            <TableFooterColumn className="bar">bar</TableFooterColumn>
-          </TableRow>
-        </TableFooter>
-      </Table>,
-      <table name="foo">
-        <tfoot>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tfoot>
-      </table>,
-    );
-  });
-
-  it('should inject a footer', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableFooterColumn key="foo" className="foo">foo</TableFooterColumn>
-        <TableFooterColumn key="bar" className="bar">bar</TableFooterColumn>
-      </Table>,
-      <table name="foo">
-        <tfoot>
-          <tr>
-            <td className="foo">foo</td>
-            <td className="bar">bar</td>
-          </tr>
-        </tfoot>
-      </table>,
-    );
-  });
-
   it('should have a body', () => {
     expectComponentToMatch(
       <Table name="foo">
-        <TableBody>
-          <TableRow>
-            <TableBodyColumn className="foo">foo</TableBodyColumn>
-            <TableBodyColumn className="bar">bar</TableBodyColumn>
-          </TableRow>
-        </TableBody>
-      </Table>,
-      <table name="foo">
-        <tbody />
-      </table>,
-    );
-  });
-
-  it('should inject a body', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableBodyColumn key="foo" className="foo">foo</TableBodyColumn>
-        <TableBodyColumn key="bar" className="bar">bar</TableBodyColumn>
-      </Table>,
-      <table name="foo">
-        <tbody />
-      </table>,
-    );
-  });
-
-  it('should have header, footer and body', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn className="foo">foo</TableHeaderColumn>
-            <TableHeaderColumn className="bar">bar</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableBodyColumn className="foo">foo</TableBodyColumn>
-            <TableBodyColumn className="bar">bar</TableBodyColumn>
-          </TableRow>
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableFooterColumn className="foo">foo</TableFooterColumn>
-            <TableFooterColumn className="bar">bar</TableFooterColumn>
-          </TableRow>
-        </TableFooter>
-      </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
-            <th className="bar">bar</th>
-          </tr>
-        </thead>
-        <tbody />
-        <tfoot>
+        <tbody>
           <tr>
             <td className="foo">foo</td>
             <td className="bar">bar</td>
           </tr>
-        </tfoot>
-      </table>,
-    );
-  });
-
-  it('should inject header, footer and body', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeaderColumn key="fooHeader" className="foo">
-          foo
-        </TableHeaderColumn>
-        <TableHeaderColumn key="barHeader" className="bar">
-          bar
-        </TableHeaderColumn>
-        <TableBodyColumn key="fooBody" className="foo">
-          foo
-        </TableBodyColumn>
-        <TableBodyColumn key="barBody" className="bar">
-          bar
-        </TableBodyColumn>
-        <TableFooterColumn key="fooFooter" className="foo">
-          foo
-        </TableFooterColumn>
-        <TableFooterColumn key="barFooter" className="bar">
-          bar
-        </TableFooterColumn>
+        </tbody>
       </Table>,
       <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
-            <th className="bar">bar</th>
-          </tr>
-        </thead>
-        <tbody />
-        <tfoot>
+        <tbody>
           <tr>
             <td className="foo">foo</td>
             <td className="bar">bar</td>
           </tr>
-        </tfoot>
+        </tbody>
       </table>,
     );
   });
@@ -250,18 +56,272 @@ describe('table', () => {
   it('should provide data', () => {
     expectComponentToMatch(
       <Table dataset={dataset}>
-        <TableBodyColumn key="foo" className="foo" field="foo" />
-        <TableBodyColumn key="bar" className="bar" field="bar" />
+        <tbody tablifyBody>
+          <tr tablifyRow>
+            <td key="foo" className="foo" />
+            <td key="bar" className="bar" />
+          </tr>
+        </tbody>
       </Table>,
       <table>
-        <tbody>
+        <tbody tablifyBody>
+          <tr
+            rowIndex={0}
+            dataIndex={0}
+            dataset={dataset}
+            data={dataset[0]}
+            tablifyRow
+          >
+            <td
+              className="foo"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[0]}
+              columnIndex={0}
+              dataIndex={0}
+            />
+            <td
+              className="bar"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[0]}
+              columnIndex={1}
+              dataIndex={0}
+            />
+          </tr>
+          <tr
+            rowIndex={0}
+            dataIndex={1}
+            dataset={dataset}
+            data={dataset[1]}
+            tablifyRow
+          >
+            <td
+              className="foo"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[1]}
+              columnIndex={0}
+              dataIndex={1}
+            />
+            <td
+              className="bar"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[1]}
+              columnIndex={1}
+              dataIndex={1}
+            />
+          </tr>
+        </tbody>
+      </table>,
+    );
+  });
+
+  /*
+  it('should handle mixed rows', () => {
+    expectComponentToMatch(
+      <Table dataset={dataset}>
+        <tbody tablifyBody>
           <tr>
-            <td className="foo">foo0</td>
-            <td className="bar">bar0</td>
+            <td>Header</td>
+          </tr>
+          <tr tablifyRow>
+            <td key="foo" className="foo" />
+            <td key="bar" className="bar" />
           </tr>
           <tr>
-            <td className="foo">foo1</td>
-            <td className="bar">bar1</td>
+            <td>Footer</td>
+          </tr>
+        </tbody>
+      </Table>,
+      <table>
+        <tbody tablifyBody>
+          <tr>
+            <td>Header</td>
+          </tr>
+          <tr
+            rowIndex={0}
+            dataIndex={0}
+            dataset={dataset}
+            data={dataset[0]}
+            tablifyRow
+          >
+            <td
+              className="foo"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[0]}
+              columnIndex={0}
+              dataIndex={0}
+            />
+            <td
+              className="bar"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[0]}
+              columnIndex={1}
+              dataIndex={0}
+            />
+          </tr>
+          <tr
+            rowIndex={0}
+            dataIndex={1}
+            dataset={dataset}
+            data={dataset[1]}
+            tablifyRow
+          >
+            <td
+              className="foo"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[1]}
+              columnIndex={0}
+              dataIndex={1}
+            />
+            <td
+              className="bar"
+              rowIndex={0}
+              dataset={dataset}
+              data={dataset[1]}
+              columnIndex={1}
+              dataIndex={1}
+            />
+          </tr>
+          <tr>
+            <td>Footer</td>
+          </tr>
+        </tbody>
+      </table>,
+    );
+  });
+  */
+
+  it('should handle nested children', () => {
+    expectComponentToMatch(
+      <Table name="foo">
+        <th key="foo" className="foo">foo</th>
+        {[
+          <th key="lorem" className="lorem">
+            lorem
+          </th>,
+          <th key="ipsum" className="ipsum">
+            ipsum
+          </th>,
+        ]}
+        <th key="bar" className="bar">bar</th>
+      </Table>,
+      <table name="foo">
+        <th key="foo" className="foo">foo</th>
+        <th key="lorem" className="lorem">
+          lorem
+        </th>
+        <th key="ipsum" className="ipsum">
+          ipsum
+        </th>
+        <th key="bar" className="bar">bar</th>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table name="foo">
+        <thead>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+          {[
+            <tr>
+              <th key="foo" className="foo">foo</th>
+            </tr>,
+            <tr>
+              <th key="foo" className="foo">foo</th>
+            </tr>,
+          ]}
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+        </thead>
+      </Table>,
+      <table name="foo">
+        <thead>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+        </thead>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table name="foo">
+        <thead>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+        </thead>
+        {[
+          <tbody>
+            <tr>
+              <td key="foo" className="foo">foo</td>
+            </tr>
+          </tbody>,
+          <tfoot>
+            <tr>
+              <td key="foo" className="foo">foo</td>
+            </tr>
+          </tfoot>,
+        ]}
+      </Table>,
+      <table name="foo">
+        <thead>
+          <tr>
+            <th key="foo" className="foo">foo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td key="foo" className="foo">foo</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td key="foo" className="foo">foo</td>
+          </tr>
+        </tfoot>
+      </table>,
+    );
+
+    expectComponentToMatch(
+      <Table dataset={dataset}>
+        <tbody tablifyBody>
+          <tr tablifyRow>
+            <td name="foo" />
+            {[<td name="bar" />, <td name="lorem" />]}
+            <td name="ipsum" />
+          </tr>
+        </tbody>
+      </Table>,
+      <table>
+        <tbody tablifyBody>
+          <tr tablifyRow>
+            <td name="foo" />
+            <td name="bar" />
+            <td name="lorem" />
+            <td name="ipsum" />
+          </tr>
+          <tr tablifyRow>
+            <td name="foo" />
+            <td name="bar" />
+            <td name="lorem" />
+            <td name="ipsum" />
           </tr>
         </tbody>
       </table>,
@@ -269,125 +329,50 @@ describe('table', () => {
 
     expectComponentToMatch(
       <Table dataset={dataset}>
-        <TableBody>
-          <TableRow>
-            <TableBodyColumn key="foo" className="foo" field="foo" />
-            <TableBodyColumn key="bar" className="bar" field="bar" />
-          </TableRow>
-        </TableBody>
-      </Table>,
-      <table>
-        <tbody>
-          <tr>
-            <td className="foo">foo0</td>
-            <td className="bar">bar0</td>
+        <tbody tablifyBody>
+          <tr tablifyRow>
+            <td name="foo" />
           </tr>
-          <tr>
-            <td className="foo">foo1</td>
-            <td className="bar">bar1</td>
+          {[
+            <tr tablifyRow>
+              <td name="bar" />
+            </tr>,
+            <tr tablifyRow>
+              <td name="lorem" />
+            </tr>,
+          ]}
+          <tr tablifyRow>
+            <td name="ipsum" />
           </tr>
         </tbody>
-      </table>,
-    );
-  });
-
-  it('should handle nested children', () => {
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-        [
-        <TableHeaderColumn key="lorem" className="lorem">
-          lorem
-        </TableHeaderColumn>
-        ,
-        <TableHeaderColumn key="ipsum" className="ipsum">
-          ipsum
-        </TableHeaderColumn>
-        ,
-        ]
-        <TableHeaderColumn key="bar" className="bar">bar</TableHeaderColumn>
       </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
-            <th className="lorem">lorem</th>
-            <th className="ipsum">ipsum</th>
-            <th className="bar">bar</th>
+      <table>
+        <tbody tablifyBody>
+          <tr tablifyRow>
+            <td name="foo" />
           </tr>
-        </thead>
-      </table>,
-    );
-
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-          </TableRow>
-          [
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-          </TableRow>,
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-          </TableRow>,
-          ]
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-      </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
+          <tr tablifyRow>
+            <td name="bar" />
           </tr>
-          <tr>
-            <th className="foo">foo</th>
+          <tr tablifyRow>
+            <td name="lorem" />
           </tr>
-          <tr>
-            <th className="foo">foo</th>
+          <tr tablifyRow>
+            <td name="ipsum" />
           </tr>
-          <tr>
-            <th className="foo">foo</th>
+          <tr tablifyRow>
+            <td name="foo" />
           </tr>
-        </thead>
-      </table>,
-    );
-
-    expectComponentToMatch(
-      <Table name="foo">
-        <TableHeader>
-          <TableRow>
-            <TableHeaderColumn key="foo" className="foo">foo</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        [
-        <TableBody>
-          <TableRow>
-            <TableBodyColumn key="foo" className="foo">foo</TableBodyColumn>
-          </TableRow>
-        </TableBody>,
-        <TableFooter>
-          <TableRow>
-            <TableFooterColumn key="foo" className="foo">foo</TableFooterColumn>
-          </TableRow>
-        </TableFooter>,
-        ]
-      </Table>,
-      <table name="foo">
-        <thead>
-          <tr>
-            <th className="foo">foo</th>
+          <tr tablifyRow>
+            <td name="bar" />
           </tr>
-        </thead>
-        <tbody />
-        <tfoot>
-          <tr>
-            <td className="foo">foo</td>
+          <tr tablifyRow>
+            <td name="lorem" />
           </tr>
-        </tfoot>
+          <tr tablifyRow>
+            <td name="ipsum" />
+          </tr>
+        </tbody>
       </table>,
     );
   });
