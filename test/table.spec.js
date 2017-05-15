@@ -58,8 +58,8 @@ describe('table', () => {
       <Table dataset={dataset}>
         <tbody tablifyBody>
           <tr tablifyRow>
-            <td key="foo" className="foo" />
-            <td key="bar" className="bar" />
+            <td className="foo" />
+            <td className="bar" />
           </tr>
         </tbody>
       </Table>,
@@ -118,7 +118,6 @@ describe('table', () => {
     );
   });
 
-  /*
   it('should handle mixed rows', () => {
     expectComponentToMatch(
       <Table dataset={dataset}>
@@ -127,8 +126,8 @@ describe('table', () => {
             <td>Header</td>
           </tr>
           <tr tablifyRow>
-            <td key="foo" className="foo" />
-            <td key="bar" className="bar" />
+            <td className="foo" />
+            <td className="bar" />
           </tr>
           <tr>
             <td>Footer</td>
@@ -141,7 +140,7 @@ describe('table', () => {
             <td>Header</td>
           </tr>
           <tr
-            rowIndex={0}
+            rowIndex={1}
             dataIndex={0}
             dataset={dataset}
             data={dataset[0]}
@@ -149,7 +148,7 @@ describe('table', () => {
           >
             <td
               className="foo"
-              rowIndex={0}
+              rowIndex={1}
               dataset={dataset}
               data={dataset[0]}
               columnIndex={0}
@@ -157,7 +156,7 @@ describe('table', () => {
             />
             <td
               className="bar"
-              rowIndex={0}
+              rowIndex={1}
               dataset={dataset}
               data={dataset[0]}
               columnIndex={1}
@@ -165,7 +164,7 @@ describe('table', () => {
             />
           </tr>
           <tr
-            rowIndex={0}
+            rowIndex={1}
             dataIndex={1}
             dataset={dataset}
             data={dataset[1]}
@@ -173,7 +172,7 @@ describe('table', () => {
           >
             <td
               className="foo"
-              rowIndex={0}
+              rowIndex={1}
               dataset={dataset}
               data={dataset[1]}
               columnIndex={0}
@@ -181,7 +180,7 @@ describe('table', () => {
             />
             <td
               className="bar"
-              rowIndex={0}
+              rowIndex={1}
               dataset={dataset}
               data={dataset[1]}
               columnIndex={1}
@@ -195,7 +194,6 @@ describe('table', () => {
       </table>,
     );
   });
-  */
 
   it('should handle nested children', () => {
     expectComponentToMatch(
@@ -230,10 +228,10 @@ describe('table', () => {
             <th key="foo" className="foo">foo</th>
           </tr>
           {[
-            <tr>
+            <tr key="foo">
               <th key="foo" className="foo">foo</th>
             </tr>,
-            <tr>
+            <tr key="bar">
               <th key="foo" className="foo">foo</th>
             </tr>,
           ]}
@@ -268,12 +266,12 @@ describe('table', () => {
           </tr>
         </thead>
         {[
-          <tbody>
+          <tbody key="foo">
             <tr>
               <td key="foo" className="foo">foo</td>
             </tr>
           </tbody>,
-          <tfoot>
+          <tfoot key="bar">
             <tr>
               <td key="foo" className="foo">foo</td>
             </tr>
@@ -304,7 +302,7 @@ describe('table', () => {
         <tbody tablifyBody>
           <tr tablifyRow>
             <td name="foo" />
-            {[<td name="bar" />, <td name="lorem" />]}
+            {[<td name="bar" key="foo" />, <td name="lorem" key="bar" />]}
             <td name="ipsum" />
           </tr>
         </tbody>
@@ -334,10 +332,10 @@ describe('table', () => {
             <td name="foo" />
           </tr>
           {[
-            <tr tablifyRow>
+            <tr key="foo" tablifyRow>
               <td name="bar" />
             </tr>,
-            <tr tablifyRow>
+            <tr key="bar" tablifyRow>
               <td name="lorem" />
             </tr>,
           ]}

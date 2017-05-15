@@ -23,55 +23,75 @@ const getChildrenArray = (props: TableProps) => {
   ) {
     childrenArray = [children];
   }
-  return childrenArray.map((container) => {
+  return childrenArray.map((container, containerIndex) => {
     let newContainer = container;
     if (container && container.props && container.props.tablifyBody) {
       const containerChildren = toArray(
         (container.props && container.props.children) || [],
         true,
       );
+      const insertedRows = {};
+      const toAppend = [];
+      let tablifying = false;
       newContainer = React.cloneElement(
         container,
-        {},
+        {
+          key: container.props.key !== undefined
+            ? container.props.key
+            : containerIndex,
+        },
         // eslint-disable-next-line
         flatten(
           dataset.map((data, dataIndex) =>
             containerChildren.map((row, rowIndex) => {
-              let newRow = row;
-              if (row && row.type && row.props && row.props.tablifyRow) {
-                newRow = (
-                  <row.type
-                    {...row.props}
+              let newRow;
+              if (row && row.type && row.props) {
+                if (row.props.tablifyRow) {
+                  tablifying = true;
+                  newRow = (
+                    <row.type
+                      {...row.props}
+                      // eslint-disable-next-line
+                      key={`${dataIndex}${rowIndex}`}
+                      rowIndex={rowIndex}
+                      dataIndex={dataIndex}
+                      dataset={dataset}
+                      data={data}
+                    >
+                      {toArray(
+                        (row.props && row.props.children) || [],
+                        true,
+                      ).map((column, columnIndex) =>
+                        cloneWithProps(
+                          column,
+                          {
+                            ...others,
+                            rowIndex,
+                            dataIndex,
+                            columnIndex,
+                            dataset,
+                            data,
+                          },
+                          `${rowIndex}${columnIndex}`,
+                        ),
+                      )}
+                    </row.type>
+                  );
+                } else if (insertedRows[rowIndex] === undefined) {
+                  insertedRows[rowIndex] = true;
+                  const tempRow =
                     // eslint-disable-next-line
-                    key={`${dataIndex}${rowIndex}`}
-                    rowIndex={rowIndex}
-                    dataIndex={dataIndex}
-                    dataset={dataset}
-                    data={data}
-                  >
-                    {toArray(
-                      (row.props && row.props.children) || [],
-                      true,
-                    ).map((column, columnIndex) =>
-                      cloneWithProps(
-                        column,
-                        {
-                          ...others,
-                          rowIndex,
-                          dataIndex,
-                          columnIndex,
-                          dataset,
-                          data,
-                        },
-                        `${rowIndex}${columnIndex}`,
-                      ),
-                    )}
-                  </row.type>
-                );
+                    <row.type {...row.props} key={`${dataIndex}${rowIndex}`} />;
+                  if (tablifying === true) {
+                    toAppend.push(tempRow);
+                  } else {
+                    newRow = tempRow;
+                  }
+                }
               }
               return newRow;
             }),
-          ),
+          ).concat(toAppend),
         ),
       );
     }
