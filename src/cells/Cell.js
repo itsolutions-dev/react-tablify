@@ -4,11 +4,11 @@ import React from 'react';
 
 export default class Cell extends React.Component {
   static defaultProps = {
-    cellComponent: 'td',
+    component: 'td',
   };
 
   props: {
-    cellComponent: string | Function,
+    component: string | Function,
     data: any,
     field: number | string,
     onCreate: any => any,
@@ -17,7 +17,7 @@ export default class Cell extends React.Component {
 
   render() {
     const {
-      cellComponent,
+      component,
       data,
       field,
       onCreate,
@@ -32,8 +32,8 @@ export default class Cell extends React.Component {
     } else if (typeof field === 'number') {
       newData = data[field];
     }
-    if (onCreate) newData = onCreate(newData);
-    const Component = cellComponent;
+    if (typeof onCreate === 'function') newData = onCreate(newData);
+    const Component = component;
     return (
       <Component {...others}>
         {newData}

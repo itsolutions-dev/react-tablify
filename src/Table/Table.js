@@ -14,7 +14,7 @@ type TableProps = {
 const getChildrenArray = (props: TableProps) => {
   const { dataset, component, children, className, style, ...others } = props;
   let childrenArray = [];
-  if (children && Array.isArray(children)) {
+  if (Array.isArray(children)) {
     childrenArray = children;
   } else if (
     children !== null &&

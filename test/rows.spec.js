@@ -14,7 +14,7 @@ describe('rows', () => {
 
     it('should render a custom component', () => {
       expectComponentToMatch(
-        <Row rowComponent="div" name="foo" />,
+        <Row component="div" name="foo" />,
         <div name="foo" />,
       );
     });

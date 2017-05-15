@@ -30,11 +30,17 @@ export default class LookupCell extends React.Component {
         onCreate={(data) => {
           let value = notFoundText;
           const result =
-            dataSource && dataSource.filter(x => x[valueField] === data);
-          if (result && result.length > 0) {
+            Array.isArray(dataSource) &&
+            dataSource.filter(x => x[valueField] === data);
+          if (
+            result !== undefined &&
+            result !== null &&
+            result !== false &&
+            result.length > 0
+          ) {
             value = result[0][displayField];
           }
-          if (onCreate && typeof onCreate === 'function') {
+          if (typeof onCreate === 'function') {
             value = onCreate(value);
           }
           return value;

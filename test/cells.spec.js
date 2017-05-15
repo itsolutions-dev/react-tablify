@@ -24,7 +24,7 @@ describe('cells', () => {
 
     it('should render a custom component', () => {
       expectComponentToMatch(
-        <Cell cellComponent="th" name="foo" />,
+        <Cell component="th" name="foo" />,
         <th name="foo" />,
       );
     });

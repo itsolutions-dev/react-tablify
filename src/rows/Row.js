@@ -4,7 +4,7 @@ import React from 'react';
 
 export default class Row extends React.Component {
   static defaultProps = {
-    rowComponent: 'tr',
+    component: 'tr',
     style: {},
   };
 
@@ -24,7 +24,7 @@ export default class Row extends React.Component {
   };
 
   props: {
-    rowComponent: string | Function,
+    component: string | Function,
     data: any,
     colors: Array<string>,
     odd: string,
@@ -39,7 +39,7 @@ export default class Row extends React.Component {
 
   render() {
     const {
-      rowComponent,
+      component,
       onClick,
       onCreate,
       style,
@@ -58,7 +58,7 @@ export default class Row extends React.Component {
     const newStyles = Object.assign({}, style, {
       background,
     });
-    const Component = rowComponent;
+    const Component = component;
     let additionalProps = {};
     if (onCreate) {
       additionalProps = onCreate(this.getRowData());
