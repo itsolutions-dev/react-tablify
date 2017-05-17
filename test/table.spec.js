@@ -8,6 +8,7 @@ import { Table } from '../src/';
 
 describe('table', () => {
   const dataset = [{ foo: 'foo0', bar: 'bar0' }, { foo: 'foo1', bar: 'bar1' }];
+  const Td = (props: Object) => <td>{props.data}</td>;
 
   it('should render the given component', () => {
     expectComponentToMatch(<Table component="div" />, <span><div /></span>);
@@ -398,8 +399,6 @@ describe('table', () => {
   });
 
   describe('pagination', () => {
-    const Td = (props: Object) => <td>{props.data}</td>;
-
     it('should render a pagination', () => {
       expectComponentToMatch(
         <Table
@@ -484,5 +483,36 @@ describe('table', () => {
     });
 
     //  TODO : test internal pagination
+  });
+
+  describe('search', () => {
+    it('should render a search component', () => {
+      expectComponentToMatch(
+        <Table
+          dataset={dataset}
+          searchComponent={props => <div name="foo" {...props} />}
+        />,
+        <span>
+          <div name="foo" />
+          <table />
+        </span>,
+      );
+    });
+
+    it('should call onSearch', (done) => {
+      const rendered = ReactTestUtils.renderIntoDocument(
+        <Table
+          onSearch={(page) => {
+            expect(page).toEqual('foo');
+            done();
+          }}
+          searchComponent={props => <button onClick={() => props.onSearch('foo')} />}
+        />,
+      );
+      const button = ReactTestUtils.findRenderedDOMComponentWithTag(rendered, 'button');
+      ReactTestUtils.Simulate.click(button);
+    });
+
+    //  TODO : test internal search
   });
 });

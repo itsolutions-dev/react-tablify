@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { toArray, flatten, cloneWithProps } from '../utils';
+import { toArray, flatten, cloneWithProps /* , toLowerCase */ } from '../utils';
 
 type TableProps = {
   component: string | Function,
@@ -9,6 +9,10 @@ type TableProps = {
   pageSize: number,
   pagination: Function,
   onPageChange: Function,
+  search: string,
+  searchFor: Array<any>,
+  searchComponent: Function,
+  onSearch: Function,
   dataset: Array<any>,
   className: string,
   style: Object,
@@ -21,18 +25,60 @@ export default class Table extends React.Component {
     dataset: [],
   };
 
-  state = {}
+  state = {};
 
   onPageChange = (...params: any) => {
-    const { onPageChange } = this.props;
-    if (typeof onPageChange === 'function') {
-      onPageChange(...params);
-    } else {
-      this.setState({
-        ...this.state,
-        pageNumber: params[0],
-      });
-    }
+    this.setState({
+      ...this.state,
+      pageNumber: params[0],
+    });
+  };
+
+  onSearch = (/* value, { type = 'like', caseSensitive = false, fields } = {} */) => {
+    // TODO
+
+    /*
+    const { searchFor, dataset } = this.props;
+    let search = value;
+    const criteria = fields || searchFor || [];
+    dataset.filter(x =>
+      criteria.reduce((acc, cur) => {
+        if (acc === true) return true;
+        let data = x;
+        if (typeof cur === 'function') {
+          data = cur(data);
+        } else {
+          String(cur).split('.').forEach((z: string) => {
+            data = (data || {})[z];
+          });
+        }
+        let match;
+        switch (type) {
+          case 'equals':
+            if (typeof data === 'string' && caseSensitive === false) {
+              data = toLowerCase(data);
+            }
+            if (typeof search === 'string' && caseSensitive === false) {
+              search = toLowerCase(search);
+            }
+            match = data === search;
+            break;
+          case 'startsWith':
+            data = toLowerCase(data);
+            search = toLowerCase(search);
+            match = data.startsWith(search);
+            break;
+          case 'like':
+          default:
+            data = toLowerCase(data);
+            search = toLowerCase(search);
+            match = new RegExp(search).test(data);
+            break;
+        }
+        return match || acc;
+      }, false),
+    );
+    */
   };
 
   getChildrenArray = () => {
@@ -160,14 +206,24 @@ export default class Table extends React.Component {
       pageNumber,
       pageSize,
       pagination,
+      search,
+      searchFor,
+      searchComponent,
+      onSearch,
       dataset,
       children,
       ...others
     } = this.props;
     const Component = component;
     const Pagination = pagination;
+    const SearchComponent = searchComponent;
     return (
       <span>
+        {SearchComponent &&
+          <SearchComponent
+            search={search}
+            onSearch={onSearch || this.onSearch}
+          />}
         <Component {...others}>
           {this.getChildrenArray(this.props)}
         </Component>
@@ -176,7 +232,7 @@ export default class Table extends React.Component {
             items={dataset.length}
             pageSize={pageSize}
             pageNumber={pageNumber}
-            onPageChange={this.onPageChange}
+            onPageChange={onPageChange || this.onPageChange}
           />}
       </span>
     );

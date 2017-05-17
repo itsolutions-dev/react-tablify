@@ -25,8 +25,19 @@ export const cloneWithProps = (element: Object, props: Object, key: any) => {
     element === undefined ||
     element === null ||
     element.type === undefined
-  ) return null;
+  ) { return null; }
   const newProps = Object.assign({}, props, element.props);
   if (newProps.key === undefined) newProps.key = key;
   return <element.type {...newProps} />;
+};
+
+export const toLowerCase = (string: any, forceConversion: boolean = false) => {
+  let result = string;
+  if (forceConversion === true && typeof string !== 'string') {
+    result = String(string);
+  }
+  if (typeof result === 'string' && forceConversion === false) {
+    result = result.toLowerCase();
+  }
+  return result;
 };
