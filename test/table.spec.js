@@ -403,13 +403,13 @@ describe('table', () => {
       expectComponentToMatch(
         <Table
           dataset={dataset}
-          pageNumber={0}
+          pageIndex={0}
           pageSize={20}
           pagination={props => <div {...props} />}
         />,
         <span>
           <table />
-          <div items={2} pageNumber={0} pageSize={20} />
+          <div items={2} pageIndex={0} pageNumber={1} pageSize={20} />
         </span>,
       );
 
@@ -417,14 +417,14 @@ describe('table', () => {
         <Table dataset={dataset} pagination={props => <div {...props} />} />,
         <span>
           <table />
-          <div items={2} pageNumber={0} pageSize={10} />
+          <div items={2} pageIndex={0} pageNumber={1} pageSize={10} />
         </span>,
       );
     });
 
     it('should render the correct page', () => {
       expectComponentToMatch(
-        <Table dataset={[...Array(10).keys()]} pageNumber={2} pageSize={3}>
+        <Table dataset={[...Array(10).keys()]} pageIndex={2} pageSize={3}>
           <tbody tablifyBody>
             <tr tablifyRow>
               <Td />
@@ -449,7 +449,7 @@ describe('table', () => {
       );
 
       expectComponentToMatch(
-        <Table dataset={[...Array(7).keys()]} pageNumber={2} pageSize={3}>
+        <Table dataset={[...Array(7).keys()]} pageIndex={2} pageSize={3}>
           <tbody tablifyBody>
             <tr tablifyRow>
               <Td />
@@ -499,13 +499,13 @@ describe('table', () => {
         rendered,
         Table,
       );
-      expect(table.state.pageNumber).toEqual(undefined);
+      expect(table.state.pageIndex).toEqual(undefined);
       const button = ReactTestUtils.findRenderedDOMComponentWithTag(
         rendered,
         'button',
       );
       ReactTestUtils.Simulate.click(button);
-      expect(table.state.pageNumber).toEqual(42);
+      expect(table.state.pageIndex).toEqual(42);
     });
   });
 

@@ -5,7 +5,7 @@ import { toArray, flatten, cloneWithProps /* , toLowerCase */ } from '../utils';
 
 type TableProps = {
   component: string | Function,
-  pageNumber: number,
+  pageIndex: number,
   pageSize: number,
   pagination: Function,
   onPageChange: Function,
@@ -31,7 +31,7 @@ export default class Table extends React.Component {
   onPageChange = (...params: any) => {
     this.setState({
       ...this.state,
-      pageNumber: params[0],
+      pageIndex: params[0],
     });
   };
 
@@ -81,8 +81,8 @@ export default class Table extends React.Component {
     */
   };
 
-  getPageNumber = () =>
-    [this.props.pageNumber, this.state.pageNumber, 0].reduce(
+  getpageIndex = () =>
+    [this.props.pageIndex, this.state.pageIndex, 0].reduce(
       (acc, cur) => (typeof acc === 'number' ? acc : cur),
     );
 
@@ -91,7 +91,7 @@ export default class Table extends React.Component {
       dataset,
       component,
       onPageChange,
-      pageNumber,
+      pageIndex,
       pageSize,
       pagination,
       children,
@@ -110,8 +110,8 @@ export default class Table extends React.Component {
       childrenArray = [children];
     }
     let filteredDataset = dataset;
-    if (pagination !== undefined || pageNumber !== undefined) {
-      const currentPointer = this.getPageNumber() * pageSize;
+    if (pagination !== undefined || pageIndex !== undefined) {
+      const currentPointer = this.getpageIndex() * pageSize;
       filteredDataset = filteredDataset.slice(
         currentPointer,
         currentPointer + pageSize,
@@ -205,7 +205,7 @@ export default class Table extends React.Component {
     const {
       component,
       onPageChange,
-      pageNumber,
+      pageIndex,
       pageSize,
       pagination,
       search,
@@ -219,6 +219,7 @@ export default class Table extends React.Component {
     const Component = component;
     const Pagination = pagination;
     const SearchComponent = searchComponent;
+    const actualPageIndex = this.getpageIndex();
     return (
       <span>
         {SearchComponent &&
@@ -233,7 +234,8 @@ export default class Table extends React.Component {
           <Pagination
             items={dataset.length}
             pageSize={pageSize}
-            pageNumber={this.getPageNumber()}
+            pageIndex={actualPageIndex}
+            pageNumber={actualPageIndex + 1}
             onPageChange={onPageChange || this.onPageChange}
           />}
       </span>
