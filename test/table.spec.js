@@ -487,7 +487,26 @@ describe('table', () => {
       ReactTestUtils.Simulate.click(button);
     });
 
-    //  TODO : test internal pagination
+    it('should use internal pagination', () => {
+      const rendered = ReactTestUtils.renderIntoDocument(
+        <Table
+          pagination={props => (
+            <button onClick={() => props.onPageChange(42)} />
+          )}
+        />,
+      );
+      const table = ReactTestUtils.findRenderedComponentWithType(
+        rendered,
+        Table,
+      );
+      expect(table.state.pageNumber).toEqual(undefined);
+      const button = ReactTestUtils.findRenderedDOMComponentWithTag(
+        rendered,
+        'button',
+      );
+      ReactTestUtils.Simulate.click(button);
+      expect(table.state.pageNumber).toEqual(42);
+    });
   });
 
   describe('search', () => {
