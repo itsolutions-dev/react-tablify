@@ -23,13 +23,8 @@
     "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
     "prepublish": "npm run clean && npm run check:src && npm run build && check-es3-syntax lib/ dist/ --kill",
     "flow": "flow check",
-    "lint": "eslint src test build",
-    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
+    "lint": "eslint src test build"
   },
-  "pre-commit": [
-    "check:src",
-    "build"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itsolutions-dev/react-tablify.git"
@@ -79,7 +74,6 @@
     "jsdom": "10.1.0",
     "mocha": "3.3.0",
     "nyc": "10.3.0",
-    "pre-commit": "1.2.2",
     "prepack": "0.2.2",
     "prepack-webpack-plugin": "1.1.0",
     "prettier": "1.2.2",
