@@ -233,6 +233,7 @@ export default class Table extends React.Component {
         {Pagination &&
           <Pagination
             items={dataset.length}
+            pages={Math.ceil(dataset.length / pageSize)}
             pageSize={pageSize}
             pageIndex={actualPageIndex}
             pageNumber={actualPageIndex + 1}

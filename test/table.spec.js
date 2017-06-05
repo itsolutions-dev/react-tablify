@@ -409,7 +409,7 @@ describe('table', () => {
         />,
         <span>
           <table />
-          <div items={2} pageIndex={0} pageNumber={1} pageSize={20} />
+          <div items={2} pages={1} pageIndex={0} pageNumber={1} pageSize={20} />
         </span>,
       );
 
@@ -417,7 +417,7 @@ describe('table', () => {
         <Table dataset={dataset} pagination={props => <div {...props} />} />,
         <span>
           <table />
-          <div items={2} pageIndex={0} pageNumber={1} pageSize={10} />
+          <div items={2} pages={1} pageIndex={0} pageNumber={1} pageSize={10} />
         </span>,
       );
     });
