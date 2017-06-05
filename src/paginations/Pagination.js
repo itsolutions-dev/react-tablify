@@ -3,20 +3,6 @@
 import React from 'react';
 
 export default class Pagination extends React.Component {
-  props: {
-    pages: number,
-    pageIndex: number,
-    pageSize: number,
-    onPageChange: Function,
-    component: Function | string,
-    indicators: number,
-    pageIndicator: Function,
-    prevIndicator: Function,
-    nextIndicator: Function,
-    firstIndicator: Function,
-    lastIndicator: Function
-  };
-
   getIndicator = (Component: Function, index: number, key: any) => (
     <Component
       key={key !== undefined ? key : index}
@@ -50,6 +36,20 @@ export default class Pagination extends React.Component {
       );
     }
     return indicatorsToShow.map(x => this.getIndicator(pageIndicator, x));
+  };
+
+  props: {
+    pages: number,
+    pageIndex: number,
+    pageSize: number,
+    onPageChange: Function,
+    component: Function | string,
+    indicators: number,
+    pageIndicator: Function,
+    prevIndicator: Function,
+    nextIndicator: Function,
+    firstIndicator: Function,
+    lastIndicator: Function
   };
 
   render() {
