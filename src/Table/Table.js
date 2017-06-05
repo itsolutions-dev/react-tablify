@@ -23,6 +23,7 @@ export default class Table extends React.Component {
   static defaultProps = {
     component: 'table',
     dataset: [],
+    pageSize: 10,
   };
 
   state = {};
@@ -36,7 +37,6 @@ export default class Table extends React.Component {
 
   onSearch = (/* value, { type = 'like', caseSensitive = false, fields } = {} */) => {
     // TODO
-
     /*
     const { searchFor, dataset } = this.props;
     let search = value;
@@ -81,6 +81,11 @@ export default class Table extends React.Component {
     */
   };
 
+  getPageNumber = () =>
+    [this.props.pageNumber, this.state.pageNumber, 0].reduce(
+      (acc, cur) => (typeof acc === 'number' ? acc : cur),
+    );
+
   getChildrenArray = () => {
     const {
       dataset,
@@ -105,11 +110,8 @@ export default class Table extends React.Component {
       childrenArray = [children];
     }
     let filteredDataset = dataset;
-    const effectivePageNumber = typeof pageNumber === 'number'
-      ? pageNumber
-      : this.state.pageNumber;
-    if (typeof pageSize === 'number') {
-      const currentPointer = effectivePageNumber * pageSize;
+    if (pagination !== undefined || pageNumber !== undefined) {
+      const currentPointer = this.getPageNumber() * pageSize;
       filteredDataset = filteredDataset.slice(
         currentPointer,
         currentPointer + pageSize,
@@ -231,7 +233,7 @@ export default class Table extends React.Component {
           <Pagination
             items={dataset.length}
             pageSize={pageSize}
-            pageNumber={pageNumber}
+            pageNumber={this.getPageNumber()}
             onPageChange={onPageChange || this.onPageChange}
           />}
       </span>

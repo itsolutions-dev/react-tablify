@@ -412,15 +412,19 @@ describe('table', () => {
           <div items={2} pageNumber={0} pageSize={20} />
         </span>,
       );
+
+      expectComponentToMatch(
+        <Table dataset={dataset} pagination={props => <div {...props} />} />,
+        <span>
+          <table />
+          <div items={2} pageNumber={0} pageSize={10} />
+        </span>,
+      );
     });
 
     it('should render the correct page', () => {
       expectComponentToMatch(
-        <Table
-          dataset={[...Array(10).keys()]}
-          pageNumber={2}
-          pageSize={3}
-        >
+        <Table dataset={[...Array(10).keys()]} pageNumber={2} pageSize={3}>
           <tbody tablifyBody>
             <tr tablifyRow>
               <Td />
@@ -445,11 +449,7 @@ describe('table', () => {
       );
 
       expectComponentToMatch(
-        <Table
-          dataset={[...Array(7).keys()]}
-          pageNumber={2}
-          pageSize={3}
-        >
+        <Table dataset={[...Array(7).keys()]} pageNumber={2} pageSize={3}>
           <tbody tablifyBody>
             <tr tablifyRow>
               <Td />
@@ -475,10 +475,15 @@ describe('table', () => {
             expect(page).toEqual(42);
             done();
           }}
-          pagination={props => <button onClick={() => props.onPageChange(42)} />}
+          pagination={props => (
+            <button onClick={() => props.onPageChange(42)} />
+          )}
         />,
       );
-      const button = ReactTestUtils.findRenderedDOMComponentWithTag(rendered, 'button');
+      const button = ReactTestUtils.findRenderedDOMComponentWithTag(
+        rendered,
+        'button',
+      );
       ReactTestUtils.Simulate.click(button);
     });
 
@@ -506,10 +511,15 @@ describe('table', () => {
             expect(page).toEqual('foo');
             done();
           }}
-          searchComponent={props => <button onClick={() => props.onSearch('foo')} />}
+          searchComponent={props => (
+            <button onClick={() => props.onSearch('foo')} />
+          )}
         />,
       );
-      const button = ReactTestUtils.findRenderedDOMComponentWithTag(rendered, 'button');
+      const button = ReactTestUtils.findRenderedDOMComponentWithTag(
+        rendered,
+        'button',
+      );
       ReactTestUtils.Simulate.click(button);
     });
 
