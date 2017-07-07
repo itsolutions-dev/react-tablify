@@ -32,7 +32,7 @@ export default class Cell extends React.Component {
     } else if (typeof field === 'number') {
       newData = data[field];
     }
-    if (typeof onCreate === 'function') newData = onCreate(newData);
+    if (typeof onCreate === 'function') newData = onCreate(newData, this.props);
     const Component = component;
     return (
       <Component {...others}>

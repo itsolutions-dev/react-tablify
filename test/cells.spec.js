@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import expect from 'expect';
 import { expectComponentToMatch } from './utils';
 import { Cell, LookupCell } from '../src/';
 
@@ -41,7 +42,18 @@ describe('cells', () => {
 
     it('should modify data in onCreate', () => {
       expectComponentToMatch(
-        <Cell onCreate={x => x.toUpperCase()} data="foo" />,
+        <Cell
+          data="foo"
+          foo="bar"
+          onCreate={(x, props) => {
+            expect(x).toEqual('foo');
+            expect(props).toMatch({
+              data: 'foo',
+              foo: 'bar',
+            });
+            return x.toUpperCase();
+          }}
+        />,
         <td>FOO</td>,
       );
     });
@@ -80,14 +92,21 @@ describe('cells', () => {
     });
 
     it('should handle onCreate', () => {
+      const props = {
+        data: orders[0],
+        field: 'customerCode',
+        displayField: 'description',
+        valueField: 'code',
+        dataSource: customers,
+      };
       expectComponentToMatch(
         <LookupCell
-          data={orders[0]}
-          field="customerCode"
-          displayField="description"
-          valueField="code"
-          dataSource={customers}
-          onCreate={description => description.toUpperCase()}
+          {...props}
+          onCreate={(description, lookupProps) => {
+            expect(description).toEqual('foo1');
+            expect(lookupProps).toMatch(props);
+            return description.toUpperCase();
+          }}
         />,
         <td>FOO1</td>,
       );

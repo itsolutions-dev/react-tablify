@@ -41,7 +41,7 @@ export default class LookupCell extends React.Component {
             value = result[0][displayField];
           }
           if (typeof onCreate === 'function') {
-            value = onCreate(value);
+            value = onCreate(value, this.props);
           }
           return value;
         }}
