@@ -26,6 +26,7 @@ Every release, along with the migration instructions, is documented on the Githu
 
 **Adriano Buscema**
 - [github/adribusc](https://github.com/adribusc)
+- [github/FedericoBottoni](https://github.com/FedericoBottoni)
 
 ## Copyright and License
 Copyright (c) 2017, IT Solutions srl.

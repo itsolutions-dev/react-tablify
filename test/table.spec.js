@@ -14,6 +14,10 @@ describe('table', () => {
     expectComponentToMatch(<Table component="div" />, <span><div /></span>);
   });
 
+  it('should render the given container component', () => {
+    expectComponentToMatch(<Table component="span" containerComponent="div" />, <div><span /></div>);
+  });
+
   it('should render unknown components', () => {
     expectComponentToMatch(
       <Table>
