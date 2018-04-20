@@ -1,6 +1,6 @@
 {
   "name": "react-tablify",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A simple, lightweight and highly extensible datagrid for React",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",

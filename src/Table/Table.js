@@ -4,6 +4,7 @@ import React from 'react';
 import { toArray, flatten, cloneWithProps /* , toLowerCase */ } from '../utils';
 
 type TableProps = {
+  containerComponent: string | Function,
   component: string | Function,
   pageIndex: number,
   pageSize: number,
@@ -203,6 +204,7 @@ export default class Table extends React.Component {
 
   render() {
     const {
+      containerComponent,
       component,
       onPageChange,
       pageIndex,
@@ -217,11 +219,12 @@ export default class Table extends React.Component {
       ...others
     } = this.props;
     const Component = component;
+    const ContainerComponent = containerComponent || 'span';
     const Pagination = pagination;
     const SearchComponent = searchComponent;
     const actualPageIndex = this.getpageIndex();
     return (
-      <span>
+      <ContainerComponent>
         {SearchComponent &&
           <SearchComponent
             search={search}
@@ -239,7 +242,7 @@ export default class Table extends React.Component {
             pageNumber={actualPageIndex + 1}
             onPageChange={onPageChange || this.onPageChange}
           />}
-      </span>
+      </ContainerComponent>
     );
   }
 }
